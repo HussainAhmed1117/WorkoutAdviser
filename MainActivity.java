@@ -1,33 +1,37 @@
 package com.example.workoutsadviser;
 
-import java.util.ArrayList;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import java.util.List;
 
-public class WorkoutExpert {
-
-
-    List<String> getWorkouts (String workouttypes)
+public class MainActivity extends AppCompatActivity {
+    private WorkoutExpert expert = new WorkoutExpert();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+    public void onClickFindWorkout(View view)
     {
-        List<String> workout = new ArrayList<String>();
-        if(workouttypes.equals("Chest"))
+        TextView workouts = (TextView)findViewById(R.id.workout);
+        Spinner workouttype= (Spinner)findViewById(R.id.workouttype);
+        String workout = String.valueOf(workouttype.getSelectedItem());
+
+        //workouts.setText(workout);
+
+        List<String> workoutList = expert.getWorkouts(workout);
+
+        StringBuilder workoutsFormatted = new StringBuilder();
+
+        for(String work : workoutList)
         {
-            workout.add("Bench Press");
-            workout.add("Cable Flys");
+            workoutsFormatted.append(work).append('\n');
         }
-        else if(workouttypes.equals("Triceps"))
-        {
-            workout.add("Triceps Ext");
-            workout.add("Triceps PushDowns");
-        }
-        else if(workouttypes.equals("Shoulder"))
-        {
-            workout.add("Shoulder press");
-            workout.add("Triceps PushDowns");
-        }
-        else if(workouttypes.equals("Biceps"))
-        {
-            workout.add("Bicep Curls");
-        }
-        return workout;
+        workouts.setText(workoutsFormatted);
     }
 }
